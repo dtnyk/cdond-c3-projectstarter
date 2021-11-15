@@ -195,7 +195,7 @@ jobs:
           command: yum install -y tar gzip
       - run:
           name: Deploy backend infrastructure
-          working_directory: ./.circleci/files/
+          working_directory: cdond-c3-projectstarter/.circleci/files/
           command: |
             aws cloudformation deploy \
               --template-file backend.yaml \
