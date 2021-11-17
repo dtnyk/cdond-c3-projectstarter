@@ -388,13 +388,13 @@ jobs:
           command: |
             apk add --update curl nodejs npm
             pip install awscli
-      - run:
-          name: Backend smoke test.
-          working_directory: ./backend
-          command: |
-            export BACKEND_URL=$(curl -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request GET https://api.memstash.io/values/BACKEND_URL)
-            sleep 30
-            curl "$BACKEND_URL/api/status"
+      #- run:
+          #name: Backend smoke test.
+          #working_directory: ./backend
+          #command: |
+            #export BACKEND_URL=$(curl -H "token: 1e288415-cfc8-4a0a-a23c-087eb7cd7678" --request GET https://api.memstash.io/values/BACKEND_URL)
+            #sleep 30
+            #curl "$BACKEND_URL/api/status"
       - run:
           name: Frontend smoke test.
           working_directory: ./backend
@@ -519,13 +519,13 @@ workflows:
       - deploy-frontend:
           requires:
             - run-migrations
-      #- smoke-test:
-          #requires:
-            #- deploy-backend
-            #- deploy-frontend
-   #- cloudfront-update:
-          #requires:
-            #- smoke-test
-      #- cleanup:
-          #requires:
-            #- cloudfront-update
+      - smoke-test:
+          requires:
+            - deploy-backend
+            - deploy-frontend
+      - cloudfront-update:
+          requires:
+            - smoke-test
+      - cleanup:
+          requires:
+            - cloudfront-update
